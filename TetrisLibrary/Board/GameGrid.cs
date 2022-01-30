@@ -7,18 +7,20 @@ public class GameGrid{
     public int Rows { get; }
     public int Cols { get; }
 
-    //AskWiktor\Piotr: Should a class have any methods? These methods are for the class and the operate on it,
+    //AskWiktor\Piotr: Should a class have any methods? These methods are for the class and they operate on it,
     //but I'm not sure if code itself should be located here.
-    //Should it be just have a link to a static library element? Hm..that would mean that for the static Lib we would need to give
-    //an Interface Object that which is inherited by this class. (which has Rows and Cols)
+    //Should it be just have a link to a static library element? Hm..that would mean that for the static Lib,
+    //that we would need to give an Interface Object that which is inherited by this class. (which has Rows and Cols)
     //This way actions would be separeted from the class. 
-    //Does this break the single responsibility principle? 
+    //Q: Does this break the single responsibility principle? 
 
     /// <summary>
     /// Indexer for the array game grid
     /// </summary>
     public int this[int r, int c]{
         get => grid[r, c];
+        //This is a hidden element. The method returns a "value" when called even though no variable is defined here.
+        //This is a built-in feature of C#. 
         set => grid[r, c] = value;
     }
 
