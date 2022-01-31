@@ -22,7 +22,7 @@ public abstract class Block {
     /// <summary>
     /// The rotation state of a block
     /// </summary>
-    private int rotationSate;
+    private int rotationState;
     /// <summary>
     /// Offset of a block, meaning it's true position in the Game Grid
     /// </summary>
@@ -35,14 +35,41 @@ public abstract class Block {
     /// <summary>
     /// This method gets all the currently occupied Position coordinates based on the rotation of the block stored in Tiles
     /// </summary>
-    /// <returns>Yield returns positions into an IEnumerable of type Position, basically a list of coordinates for the block</returns>
+    /// <returns>Returns positions into an IEnumerable of type Position, basically a list of coordinates for the block</returns>
     public IEnumerable<Position> TilePosition() {
-        foreach (Position item in Tiles[rotationSate]) {
-            //AskWiktor\Piotr: Why a yield here? I'd created a new List (which inherits from IEnum) of type Position
-            //and on each iteration I'd have added a new position to that the list.
-            //At the end return the newly made list. 
-            //Q: Does the yield return adds to the IEnum<Position> on each iteration? Why should I use yield return here?
-            yield return new Position(item.Row + offset.Row, item.Column + offset.Column);
+        return Tiles[rotationState].Select(item => new Position(item.Row + offset.Row, item.Column + offset.Column));
+    }
+
+    /// <summary>
+    /// Rotates the block clockwise, the values are reseted on 4
+    /// </summary>
+    public void RotateStateCW() => rotationState = (rotationState + 1) % Tiles.Length;
+     
+    /// <summary>
+    /// Rotates the block counter-clockwise, the values are reseted on 0
+    /// </summary>
+    public void RotateStateCCW() {
+        if (rotationState == 0) {
+            rotationState = Tiles.Length - 1;
+        }
+        else {
+           rotationState--;
         }
     }
+
+    /// <summary>
+    /// Moves the block by the given rows and col
+    /// </summary>
+    /// <param name="rows"></param>
+    /// <param name="col"></param>
+    public void MoveBlock(int rows, int col) => offset = new Position(rows, col);
+
+    /// <summary>
+    /// Resets the block state to the default, also sets the block to the spawn point
+    /// </summary>
+    public void ResetRotation() {
+        rotationState = 0;
+        offset = new Position(Spawn.Row, Spawn.Column);
+    }
+
 }
