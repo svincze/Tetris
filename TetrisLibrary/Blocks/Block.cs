@@ -6,19 +6,18 @@
 /// </summary>
 public abstract class Block {
     /// <summary>
-    /// Each block will have a multidimensional Position type (which has int row, and int column)
-    /// The tiles variable is proctected, which means it's only accessible within its class and by derived class instances.
+    /// Id for a block
     /// </summary>
-    protected abstract Position[][] Tiles { get; }
+    public abstract int Id { get; }
     /// <summary>
     /// This variable defines the spwan position of each block
     /// </summary>
     protected abstract Position Spawn { get; }
-
     /// <summary>
-    /// Id for a block
+    /// Each block will have a multidimensional Position type (which has int row, and int column)
+    /// The tiles variable is proctected, which means it's only accessible within its class and by derived class instances.
     /// </summary>
-    public abstract int Id { get; }
+    protected abstract Position[][] Tiles { get; }
     /// <summary>
     /// The rotation state of a block
     /// </summary>
