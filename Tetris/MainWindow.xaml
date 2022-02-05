@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tetris"
         mc:Ignorable="d"
-        Title="Tetris Exercise" Height="600" Width="800"
+        Title="Tetris Exercise" Height="1000" Width="1400"
         MinWidth="600"
         MinHeight="600"
         Foreground="White"
@@ -57,6 +57,22 @@
                    Width="120"/>
         </StackPanel>
 
+        <StackPanel Grid.Row="2"
+                    Grid.Column="0"
+                    VerticalAlignment="Bottom"
+                    HorizontalAlignment="Center"
+                    Margin="20">
+            <TextBlock Text="Press the Q button to Quit"
+                       FontSize="20"
+                       TextAlignment="Justify"
+                       Margin="10"/>
+            <TextBlock Text="Press the P button to Pause"
+                       FontSize="20"
+                       TextAlignment="Justify"
+                       Margin="10"/>
+        </StackPanel>
+
+
         <StackPanel Grid.Row="1"
                     Grid.Column="2"
                     VerticalAlignment="Center"
@@ -89,6 +105,25 @@
                         Margin="0,20,0,0"
                         Padding="5"
                         Click="Retry_Button"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid x:Name="PauseMenu"
+              Background="Black"
+              Grid.ColumnSpan="3"
+              Grid.RowSpan="2"
+              Opacity="0.9"
+              Visibility="Hidden">
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+                <TextBlock Text="P A U S E D"
+                           FontSize="80"
+                           TextAlignment="Center"
+                           FontStyle="Italic"/>
+                <TextBlock Text="Press the P button to continue the game"
+                           FontSize="16"
+                           TextAlignment="Center"/>
             </StackPanel>
         </Grid>
 

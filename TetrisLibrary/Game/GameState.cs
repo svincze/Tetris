@@ -26,6 +26,7 @@ public class GameState {
     public int Score { get; private set; }
     public Block HeldBlock { get; private set; }
     public bool CanHold { get; private set; }
+    public bool IsPaused { get; private set; }
 
     /// <summary>
     /// Ctor making a game grid upon creating the Gamestate object. We define here the size of the Tetris game
@@ -35,6 +36,7 @@ public class GameState {
         Grid = new GameGrid(22, 10);
         CurrentBlock = Queue.GetAndUpdate();
         CanHold = true;
+        IsPaused = false;
     }
 
 
@@ -91,6 +93,8 @@ public class GameState {
     private bool IsGameOver() {
         return !(Grid.IsRowEmpty(0) && Grid.IsRowEmpty(1));
     }
+
+    public void Paused() => IsPaused = !IsPaused;
 
     /// <summary>
     /// Place the block and update the game if we cleared anything or if we lost the game

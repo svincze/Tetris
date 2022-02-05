@@ -52,6 +52,7 @@ namespace Tetris
         private readonly int maxDelay = 1000;
         private readonly int minDelay = 75;
         private readonly int delayDecrease = 25;
+       
         public MainWindow()
         {
             InitializeComponent();
@@ -148,48 +149,61 @@ namespace Tetris
         /// </summary>
         /// <returns></returns>
         private async Task GameLoop() {
-            Draw(gameState);
-            //This moves our block automatically downwards
+        Draw(gameState);
+           //This moves our block automatically downwards
             while (!gameState.GameOver) {
-                int delay = Math.Max(minDelay, maxDelay - gameState.Score * delayDecrease);
-                await Task.Delay(delay);
-                gameState.MoveBlockDown();
+                if (!gameState.IsPaused) {
+                    PauseMenu.Visibility = Visibility.Hidden;
+                    int delay = Math.Max(minDelay, maxDelay - gameState.Score * delayDecrease);
+                    await Task.Delay(delay);
+                    gameState.MoveBlockDown();
+
+                }
+                else {
+                    await Task.Delay(50);
+                    PauseMenu.Visibility = Visibility.Visible;
+                }
                 Draw(gameState);
             }
-
             //We exit the loop, meaning it's game over!
             GameOverMenu.Visibility = Visibility.Visible;
             FinalScoreText.Text = $"Score : {gameState.Score}";
         }
 
+
         private void Window_KeyDown(object sender, KeyEventArgs e) {
             if (gameState.GameOver) return;
-            switch (e.Key) {
-                case Key.Left:
-                    gameState.MoveBlockLeft();
-                    break;
-                case Key.Right:
-                    gameState.MoveBlockRight();
-                    break;
-                case Key.Down:
-                    gameState.MoveBlockDown();
-                    break;
-                case Key.Up:
-                    gameState.RotateBlockCW();
-                    break;
-                case Key.Z:
-                    gameState.RotateBlockCCW();
-                    break;
-                case Key.C:
-                    gameState.HoldMyBlock();
-                    break;
-                case Key.Space:
-                    gameState.DropBlock();
-                    break;
-                default:
-                    return;
+            if (e.Key == Key.P) gameState.Paused();
+            if (!gameState.IsPaused) {
+                switch (e.Key) {
+                    case Key.Left:
+                        gameState.MoveBlockLeft();
+                        break;
+                    case Key.Right:
+                        gameState.MoveBlockRight();
+                        break;
+                    case Key.Down:
+                        gameState.MoveBlockDown();
+                        break;
+                    case Key.Up:
+                        gameState.RotateBlockCW();
+                        break;
+                    case Key.Z:
+                        gameState.RotateBlockCCW();
+                        break;
+                    case Key.C:
+                        gameState.HoldMyBlock();
+                        break;
+                    case Key.Space:
+                        gameState.DropBlock();
+                        break;
+                    case Key.Q:
+                        App.Current.Shutdown();
+                        break;
+                    default:
+                        return;
+                }
             }
-
             Draw(gameState);
         }
     }
