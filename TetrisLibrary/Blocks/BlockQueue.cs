@@ -37,6 +37,10 @@ public class BlockQueue {
     /// </summary>
     /// <returns>The next randomly selected block</returns>
     public Block GetAndUpdate() {
-        return blocks[blocks.SkipWhile(x => x.Id == NextBlock.Id).First().Id];
+        Block block = NextBlock;
+        do {
+            NextBlock = ReturnRandomBlock();
+        } while (block.Id == NextBlock.Id);
+        return block;
     }
 }
