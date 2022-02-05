@@ -61,7 +61,9 @@ public abstract class Block {
     /// </summary>
     /// <param name="rows"></param>
     /// <param name="col"></param>
-    public void MoveBlock(int rows, int col) => offset = new Position(rows, col);
+    public void MoveBlock(int rows, int col) {
+        offset = new Position(offset.Row + rows, offset.Column + col);
+    }
 
     /// <summary>
     /// Resets the block state to the default, also sets the block to the spawn point

@@ -13,20 +13,28 @@ public class GameState {
         private set {
             currentBlock = value;
             currentBlock.ResetRotation();
+            for (int i = 0; i < 2; i++) {
+                currentBlock.MoveBlock(1, 0);
+                if (!BlockFits()) currentBlock.MoveBlock(-1, 0);
+            }
         }
     }
 
     public GameGrid Grid { get; }
     public BlockQueue Queue { get; }
     public bool GameOver { get; private set; }
+    public int Score { get; private set; }
+    public Block HeldBlock { get; private set; }
+    public bool CanHold { get; private set; }
 
     /// <summary>
-    /// Ctor making a game grid. We define here the size of the Tetris game
+    /// Ctor making a game grid upon creating the Gamestate object. We define here the size of the Tetris game
     /// </summary>
     public GameState() {
         Queue = new BlockQueue();
         Grid = new GameGrid(22, 10);
         CurrentBlock = Queue.GetAndUpdate();
+        CanHold = true;
     }
 
 
@@ -49,7 +57,7 @@ public class GameState {
     /// </summary>
     public void RotateBlockCW() {
         CurrentBlock.RotateStateCW();
-        if(!BlockFits()) CurrentBlock.RotateStateCCW();
+        if (!BlockFits()) CurrentBlock.RotateStateCCW();
     }
 
     /// <summary>
@@ -57,7 +65,7 @@ public class GameState {
     /// </summary>
     public void RotateBlockCCW() {
         CurrentBlock.RotateStateCCW();
-        if(!BlockFits()) CurrentBlock.RotateStateCW();
+        if (!BlockFits()) CurrentBlock.RotateStateCW();
     }
 
     /// <summary>
@@ -72,7 +80,7 @@ public class GameState {
     /// Game state tries to move the block by 1 to the right
     /// </summary>
     public void MoveBlockRight() {
-        CurrentBlock.MoveBlock(0, -1);
+        CurrentBlock.MoveBlock(0, 1);
         if (!BlockFits()) CurrentBlock.MoveBlock(0, -1);
     }
 
@@ -92,13 +100,14 @@ public class GameState {
             Grid[item.Row, item.Column] = CurrentBlock.Id;
         }
 
-        Grid.ClearFullRows();
+        Score += Grid.ClearFullRows();
 
         if (IsGameOver()) {
             GameOver = true;
         }
         else {
             CurrentBlock = Queue.GetAndUpdate();
+            CanHold = true;
         }
     }
 
@@ -111,5 +120,47 @@ public class GameState {
             CurrentBlock.MoveBlock(-1, 0);
             PlaceBlock();
         }
+    }
+
+    public void HoldMyBlock() {
+        if (!CanHold) return;
+        if (HeldBlock == null) {
+            HeldBlock = CurrentBlock;
+            CurrentBlock = Queue.GetAndUpdate();
+        }
+        else {
+            Block temp = CurrentBlock;
+            CurrentBlock = HeldBlock;
+            HeldBlock = temp;
+        }
+
+        CanHold = false;
+    }
+
+    //TASK: Rethink this
+    /// <summary>
+    /// Calculate the distance to the last occupied row in the column
+    /// </summary>
+    /// <param name="position"></param>
+    /// <returns>The distance between the current position and the last empty one</returns>
+    private int TileDropDistance(Position position) {
+        int drop = 0;
+        while (Grid.IsEmpty(position.Row + drop + 1, position.Column)) {
+            drop++;
+        }
+        return drop;
+    }
+
+    public int BlockDropDistance() {
+        int drop = Grid.Rows;
+        foreach (Position position in CurrentBlock.TilePosition()) {
+            drop = System.Math.Min(drop, TileDropDistance(position));
+        }
+        return drop;
+    }
+
+    public void DropBlock() {
+        CurrentBlock.MoveBlock(BlockDropDistance(), 0);
+        PlaceBlock();
     }
 }

@@ -34,12 +34,13 @@
         <Canvas x:Name="GameCanvas"
                 Background="#101010"
                 Width="250"
-                Height="500"
+                Height="510"
                 ClipToBounds="True"
                 Loaded="GameCanvas_Loaded"/>
         </Viewbox>
         <TextBlock 
             x:Name="ScoreText"
+            Text="Current Score: "
             Grid.Row="0"
             Grid.Column="1"
             Margin="0,10"
@@ -87,7 +88,7 @@
                         Background="LightGreen"
                         Margin="0,20,0,0"
                         Padding="5"
-                        Click="PlayAgain_Click"/>
+                        Click="Retry_Button"/>
             </StackPanel>
         </Grid>
 

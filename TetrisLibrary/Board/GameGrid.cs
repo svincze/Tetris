@@ -7,12 +7,7 @@ public class GameGrid{
     public int Rows { get; }
     public int Cols { get; }
 
-    //AskWiktor\Piotr: Should a class have any methods? These methods are for the class and they operate on it,
-    //but I'm not sure if code itself should be located here.
-    //Should it be just have a link to a static library element? Hm..that would mean that for the static Lib,
-    //that we would need to give an Interface Object that which is inherited by this class. (which has Rows and Cols)
-    //This way actions would be separeted from the class. 
-    //Q: Does this break the single responsibility principle? 
+    //Q: Does this break the single responsibility principle? NO. Object only iteracts with it's own self.
 
     /// <summary>
     /// Indexer for the array game grid
@@ -102,6 +97,7 @@ public class GameGrid{
             grid[r, c] = 0;
         }
     }
+
     /// <summary>
     /// Clear all rows in the Gamegrid
     /// </summary>
