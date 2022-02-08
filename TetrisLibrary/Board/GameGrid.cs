@@ -11,6 +11,7 @@ public class GameGrid{
 
     /// <summary>
     /// Indexer for the array game grid
+    /// This is mainly used in collections to simplfy the access
     /// </summary>
     public int this[int r, int c]{
         get => grid[r, c];
@@ -35,7 +36,7 @@ public class GameGrid{
     /// </summary>
     /// <param name="r"></param>
     /// <param name="c"></param>
-    /// <returns>Boolean</returns>
+    /// <returns>Returns true if the given r(ow) and c(olumn) is within the initialized GameGrid</returns>
     public bool IsInside(int r, int c) {
         return r >= 0 && r < Rows && c >= 0 && c < Cols;
     }

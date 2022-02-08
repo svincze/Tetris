@@ -24,7 +24,7 @@ public class BlockQueue {
     private readonly Random random = new();
 
     /// <summary>
-    /// This property stores block in the queue
+    /// This property stores the block in the queue
     /// </summary>
     public Block NextBlock { get; private set; }
 

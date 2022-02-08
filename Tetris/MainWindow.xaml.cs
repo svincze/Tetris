@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -52,7 +53,7 @@ namespace Tetris
         private readonly int maxDelay = 1000;
         private readonly int minDelay = 75;
         private readonly int delayDecrease = 25;
-       
+
         public MainWindow()
         {
             InitializeComponent();
@@ -69,6 +70,7 @@ namespace Tetris
             int cellsize = 25;
             for (int r = 0; r < grid.Rows; r++) {
                 for (int c = 0; c < grid.Cols; c++) {
+                    //this is a single square in the canvas
                     Image imageControl = new Image {
                         Width = cellsize,
                         Height = cellsize,
@@ -133,6 +135,11 @@ namespace Tetris
             ScoreText.Text = $"Score : {gameState.Score}";
         }
 
+        /// <summary>
+        /// This event is coming from the UI. The moment the UI loads we start a GameLoop
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void GameCanvas_Loaded(object sender, RoutedEventArgs e) {
             await GameLoop();
         }
@@ -145,7 +152,7 @@ namespace Tetris
 
 
         /// <summary>
-        /// This has to be aysnc because want to wait for the UI
+        /// This has to be aysnc because do not want to  wait for the UI to draw all the elements on it
         /// </summary>
         /// <returns></returns>
         private async Task GameLoop() {
@@ -160,8 +167,8 @@ namespace Tetris
 
                 }
                 else {
-                    await Task.Delay(50);
                     PauseMenu.Visibility = Visibility.Visible;
+                    await Task.Delay(100);
                 }
                 Draw(gameState);
             }
@@ -170,7 +177,11 @@ namespace Tetris
             FinalScoreText.Text = $"Score : {gameState.Score}";
         }
 
-
+        /// <summary>
+        /// Event coming from UI. Any time the User presses a button it get's registered here as a Key Event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_KeyDown(object sender, KeyEventArgs e) {
             if (gameState.GameOver) return;
             if (e.Key == Key.P) gameState.Paused();

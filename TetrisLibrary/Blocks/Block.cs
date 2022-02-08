@@ -1,8 +1,9 @@
 ﻿namespace TetrisLibrary;
 /// <summary>
 /// The Block is an abstract class, meaning the class has a missing or incomplete implementation.
-/// An abstract class cannot be instantiated.
-/// An abstract class may contain abstract methods and accessors.
+// An abstract class cannot be instantiated.
+// An abstract class may contain abstract methods and accessors.
+// The class that inherits from an abstract class needs to override it
 /// </summary>
 public abstract class Block {
     /// <summary>
@@ -12,6 +13,7 @@ public abstract class Block {
     /// <summary>
     /// This variable defines the spwan position of each block
     /// </summary>
+    //Protected means in this that the property here can only be accessed by the classes that inherits this class
     protected abstract Position Spawn { get; }
     /// <summary>
     /// Each block will have a multidimensional Position type (which has int row, and int column)

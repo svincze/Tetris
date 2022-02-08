@@ -4,9 +4,12 @@ public class GameState {
     /// This is a backing field
     /// </summary>
     //P&W: What's...a backing field? What is the purpose of this?
+    //A backing field is just a field that is used by properties when you want to modify or use that private field data.Since the property has more logic (see property of Currentblock!)
+    //In other words, a property is just a reference to another private variable.  Example:
     private Block currentBlock;
+
     /// <summary>
-    /// This ctor resets the rotation when calling the current block
+    /// This property resets the rotation when calling the current block
     /// </summary>
     public Block CurrentBlock {
         get => currentBlock;
@@ -39,9 +42,6 @@ public class GameState {
         IsPaused = false;
     }
 
-
-    //PIOTR\WIKTOR: Wouldn't it be better to precheck everything the user tries to do? This always operates with a true game object
-
     /// <summary>
     /// This method checks if the current block has a valid position in the grid
     /// </summary>
@@ -52,7 +52,6 @@ public class GameState {
         }
         return true;
     }
-
 
     /// <summary>
     /// Game state tries to rotate the block cw
